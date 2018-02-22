@@ -19,25 +19,25 @@ The file organization of our workflow is presented as follow:
 
 - the reference genome and annotation files: 
 
-1. hg19.fa  
+    1. hg19.fa  
 
-2. gibVirus.fa  
+    2. gibVirus.fa  
 
-3. hg19Virus.fa  
+    3. hg19Virus.fa  
 
-4. hg19Virus_refGene_RIS.txt  
+    4. hg19Virus_refGene_RIS.txt  
 
-5. Spanner_anchor_hg19Virus.txt 
+    5. Spanner_anchor_hg19Virus.txt 
 
 - a SHELL script Jump_file_builder.sh to generate the jump files from the reference genome and annotation files 
 
 - the VirusSeq/VirusSeq_Script directory contains the following PERL programs: 
 
-1. Spanner_cross_converter.pl 
+    1. Spanner_cross_converter.pl 
 
-2. VirusSeq_Detection.pl 
+    2. VirusSeq_Detection.pl 
 
-3. VirusSeq_Integration.pl 
+    3. VirusSeq_Integration.pl 
 
 - the VirusSeq/samples directory is where the user is supposed to place the samples to be processed. In section 2, we provide detailed direction on how the user is expected to organize his FASTQ samples. 
 
