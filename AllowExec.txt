@@ -1,0 +1,24 @@
+From: http://askubuntu.com/questions/245154/how-to-get-permissions-to-execute-programs-from-ntfs-hard-drive
+Also see: http://ubuntuforums.org/archive/index.php/t-1390817.html
+
+Follow these steps to make a NTFS partition executable:
+Open a terminal and type sudo blkid -c /dev/null
+This command allow you to identify your NTFS drive and your UUID number. Example :
+
+/dev/sdb1: LABEL="my_label" UUID="xxx" TYPE="ntfs"
+
+Open the /etc/fstab file from terminal typing sudo gedit /etc/fstab
+
+Don’t edit the existing lines, but add new one at the end like this example:
+
+UUID=xxx /media/my_label ntfs-3g defaults,auto,uid=1000,gid=1000,umask=002 0 0
+
+NOTE: Replace the UUID number and the mounting point /media/my_label according to your situation!
+
+Save the file and close the text editor.
+
+Enter the next command in the terminal: sudo mount -a
+
+And restart Ubuntu. Done
+
+Now, every time you mount your NTFS partition, you will be able to run executable files.
