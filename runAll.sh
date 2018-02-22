@@ -1,6 +1,6 @@
 #!/bin/bash
 #######################
-# VirusSeq Workflow
+# VirusSeqPipeline
 # By Roseric Azondekon
 #######################
 
