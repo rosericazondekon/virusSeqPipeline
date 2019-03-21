@@ -7,7 +7,7 @@ This command allow you to identify your NTFS drive and your UUID number. Example
 
 /dev/sdb1: LABEL="my_label" UUID="xxx" TYPE="ntfs"
 
-Open the /etc/fstab file from terminal typing sudo gedit /etc/fstab
+Open the /etc/fstab file from terminal typing "sudo gedit /etc/fstab"
 
 Don’t edit the existing lines, but add new one at the end like this example:
 
