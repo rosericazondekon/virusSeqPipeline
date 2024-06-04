@@ -1,22 +1,53 @@
 #!/bin/bash
-#######################
+#############################
 # VirusSeqPipeline
 # By Roseric Azondekon
-#######################
+# Last Updated: 06/03/2024
+#############################
 
-# set working directory
-folder=$(pwd) #capture the VirusSeq working directory
+#!/bin/bash
+
+# Default values
+reference_url="http://odin.mdacc.tmc.edu/~xsu1/hg19.fa.gz"
+
+# Parse command line options
+while getopts ":ref:" opt; do
+  case $opt in
+    ref)
+      reference_url="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Check if reference URL is provided
+if [ -z "$reference_url" ]; then
+  echo "Error: Reference genome URL not provided. Please use the -ref flag to specify the URL."
+  exit 1
+fi
+
+# Set working directory
+folder=$(pwd) # Capture the current working directory
+
+# Change directory to VirusSeq working directory
 cd "$folder"
 
-
 # Get Reference genome files if they do not exist
-if [ ! -f "$folder"/Mosaik_JumpDb/hg19.fa ] ; then
-echo "Downloading hg19.fa.gz..."
-wget "$folder" "http://odin.mdacc.tmc.edu/~xsu1/hg19.fa.gz"
-echo "Extracting hg19.fa.gz"
-gunzip -c hg19.fa.gz > "$folder"/Mosaik_JumpDb/hg19.fa
-rm -f hg19.fa.gz
+if [ ! -f "$folder"/Mosaik_JumpDb/genome_ref.fa ]; then
+    echo "Downloading "$(basename $reference_url)" from "$reference_url" ..."
+    wget "$reference_url" -O "$folder"/genome_ref.fa.gz
+    echo "Extracting "$(basename $reference_url)" ..."
+    gunzip -c "$folder"/genome_ref.fa.gz > "$folder"/Mosaik_JumpDb/genome_ref.fa
+    rm -f "$folder"/genome_ref.fa.gz
 fi
+
+
 
 if [ ! -f "$folder"/Mosaik_JumpDb/gibVirus.fa ] ; then
 echo "Downloading gibVirus.fa.gz..."
@@ -65,7 +96,7 @@ mkdir -p "$folder"/results/"$sample"
 "$folder"/Mosaik_bin/MosaikBuild -q "$folder2"/"$sample"/"$sample"_1.fq.gz -q2 "$folder2"/"$sample"/"$sample"_2.fq.gz -out "$folder"/results/"$sample"/"$sample"_Virus.bin -st illumina
 
 ##performing alignment against human genome reference hg19 with MosaikAligner
-"$folder"/Mosaik_bin/MosaikAligner -in "$folder"/results/"$sample"/"$sample"_Virus.bin -ia "$folder"/Mosaik_JumpDb/hg19.fa.bin -out "$folder"/results/"$sample"/"$sample"_Virus.bin.aligned -hs 15 -mmp 0.1 -mmal 0.5 -act 25 -mhp 100 unique -j "$folder"/Mosaik_JumpDb/hg19.JumpDb -p 14 -km -pm -rur "$folder"/results/"$sample"/"$sample"_Unalg.fq
+"$folder"/Mosaik_bin/MosaikAligner -in "$folder"/results/"$sample"/"$sample"_Virus.bin -ia "$folder"/Mosaik_JumpDb/genome_ref.fa.bin -out "$folder"/results/"$sample"/"$sample"_Virus.bin.aligned -hs 15 -mmp 0.1 -mmal 0.5 -act 25 -mhp 100 unique -j "$folder"/Mosaik_JumpDb/genome_ref.JumpDb -p 14 -km -pm -rur "$folder"/results/"$sample"/"$sample"_Unalg.fq
 
 #start aligning unmapped reads against virus genomes to detect the virus
 
