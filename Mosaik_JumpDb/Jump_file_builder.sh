@@ -31,6 +31,5 @@ $dir/MosaikBuild -fr hg19Virus.fa -oa hg19Virus.fa.bin -st illumina -assignQual 
 $dir/MosaikJump -ia hg19Virus.fa.bin -out hg19Virus.JumpDb -hs 15 -mhp 100 -km
 
 ##for hg19 reference genome
-$dir/MosaikBuild -fr hg19.fa -oa hg19.fa.bin -st illumina -assignQual 40
-$dir/MosaikJump -ia hg19.fa.bin -out hg19.JumpDb -hs 15 -mhp 100 -km
-
+$dir/MosaikBuild -fr genome_ref.fa -oa genome_ref.fa.bin -st illumina -assignQual 40
+$dir/MosaikJump -ia genome_ref.fa.bin -out genome_ref.JumpDb -hs 15 -mhp 100 -km
